@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Logo, SeloStatus } from "@/components/ui";
+import { CabecalhoNegocio } from "@/components/negocio";
+import { SeloStatus } from "@/components/ui";
 import { formatarReais } from "@/lib/dinheiro";
 import { detalheReserva } from "@/lib/reservas";
 import { formatarDataLonga, formatarHora } from "@/lib/tempo";
@@ -19,11 +20,9 @@ export default async function PaginaReserva({ params }: { params: Promise<{ slug
   const aguardandoPix = status === "pendente" && pagamento;
 
   return (
-    <main className="mx-auto max-w-lg px-4 py-6 sm:py-10">
-      <header className="mb-6">
-        <Logo href={`/${slug}`} />
-      </header>
-
+    <div className="min-h-dvh bg-fundo">
+      <CabecalhoNegocio nome={negocio.nome} slug={slug} subtitulo="Sua reserva" />
+      <main className="relative mx-auto -mt-12 max-w-lg px-4 pb-16">
       <section className="cartao">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -57,8 +56,8 @@ export default async function PaginaReserva({ params }: { params: Promise<{ slug
       </section>
 
       {aguardandoPix && (
-        <section className="cartao mt-4 text-center" aria-labelledby="titulo-pix">
-          <h2 id="titulo-pix" className="font-semibold">
+        <section className="cartao mt-4 text-center ring-2 ring-marca/15" aria-labelledby="titulo-pix">
+          <h2 id="titulo-pix" className="text-lg font-bold">
             Pague o sinal para confirmar
           </h2>
           <p className="mt-1 text-sm text-apagado">Abra o app do banco, escolha Pix e leia o QR Code ou cole o código.</p>
@@ -68,7 +67,7 @@ export default async function PaginaReserva({ params }: { params: Promise<{ slug
             alt="QR Code do Pix"
             width={220}
             height={220}
-            className="mx-auto my-4 rounded-lg border border-linha"
+            className="mx-auto my-5 rounded-2xl border border-linha p-2 shadow-sm"
           />
           <CopiarPix codigo={pagamento.pixCopiaECola} />
           <Acompanhar reservaId={reserva.id} expiraEm={reserva.expiraEm!.toISOString()} />
@@ -78,6 +77,9 @@ export default async function PaginaReserva({ params }: { params: Promise<{ slug
 
       {status === "confirmada" && (
         <section className="cartao mt-4 border-emerald-200 bg-emerald-50 text-center">
+          <span aria-hidden className="mx-auto mb-3 grid size-12 place-items-center rounded-full bg-emerald-600 text-2xl text-white shadow-lg shadow-emerald-600/30">
+            ✓
+          </span>
           <p className="text-lg font-semibold text-emerald-800">Tudo certo! Reserva confirmada.</p>
           <p className="mt-1 text-sm text-emerald-900/80">
             Enviamos a confirmação para {reserva.clienteEmail}. Você recebe um lembrete um dia antes.
@@ -100,6 +102,7 @@ export default async function PaginaReserva({ params }: { params: Promise<{ slug
           <p className="mt-1 text-sm text-apagado">{negocio.nome} vai devolver o sinal. Se quiser, escolha outro horário.</p>
         </section>
       )}
-    </main>
+      </main>
+    </div>
   );
 }

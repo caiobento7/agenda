@@ -6,16 +6,18 @@ const unico = () => `${Date.now()}${Math.floor(Math.random() * 1000)}`;
 async function escolherHorario(page: Page, servico: string) {
   await page.goto("/studio-exemplo");
   await page.locator("a", { has: page.getByText(servico, { exact: true }) }).click();
-  const dias = page.getByRole("region", { name: "2. Dia" }).getByRole("link");
+  const regiaoDia = page.getByRole("region", { name: "Dia", exact: true });
+  await expect(regiaoDia).toBeVisible();
+  const dias = await regiaoDia.getByRole("link").evaluateAll((links) => links.map((a) => a.getAttribute("href")!));
   // O primeiro dia aberto pode não ter mais horário (já passou do expediente): tenta os seguintes.
-  for (let i = 0; i < (await dias.count()); i++) {
-    await dias.nth(i).click();
-    const horarios = page.getByRole("region", { name: "3. Horário" }).getByRole("link");
-    await expect(page.getByRole("region", { name: "3. Horário" })).toBeVisible();
+  for (const dia of dias) {
+    await page.goto(dia);
+    const horarios = page.getByRole("region", { name: "Horário", exact: true }).getByRole("link");
+    await expect(page.getByRole("region", { name: "Horário", exact: true })).toBeVisible();
     if ((await horarios.count()) === 0) continue;
     const hora = (await horarios.first().textContent())!.trim();
     await horarios.first().click();
-    await expect(page.getByRole("region", { name: "4. Seus dados" })).toBeVisible();
+    await expect(page.getByRole("region", { name: "Seus dados", exact: true })).toBeVisible();
     return hora;
   }
   throw new Error("Nenhum horário livre na agenda de demonstração.");
@@ -46,7 +48,7 @@ test("serviço sem sinal confirma na hora e o horário some da lista", async ({ 
   await expect(page.getByText("Tudo certo! Reserva confirmada.")).toBeVisible();
 
   await page.goto(paginaDoDia);
-  await expect(page.getByRole("region", { name: "3. Horário" }).getByRole("link", { name: hora, exact: true })).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Horário", exact: true }).getByRole("link", { name: hora, exact: true })).toHaveCount(0);
 });
 
 test("dono entra no painel e vê a reserva", async ({ page }) => {
@@ -71,7 +73,7 @@ test("senha errada não entra e painel sem login volta para o login", async ({ p
   await page.getByLabel("E-mail").fill("demo@agenda.dev");
   await page.getByLabel("Senha").fill("errada123");
   await page.getByRole("button", { name: "Entrar" }).click();
-  await expect(page.getByRole("alert")).toHaveText("E-mail ou senha incorretos.");
+  await expect(page.getByText("E-mail ou senha incorretos.")).toBeVisible();
 });
 
 test("novo negócio cria a agenda, cadastra um serviço e ele aparece na página pública", async ({ page }) => {
