@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--fonte), ui-sans-serif, system-ui, sans-serif;
+  --color-marca: #0f766e;
+  --color-marca-forte: #115e59;
+  --color-marca-suave: #ccfbf1;
+  --color-tinta: #0f172a;
+  --color-apagado: #64748b;
+  --color-linha: #e2e8f0;
+  --color-fundo: #f8fafc;
+}
+
+body {
+  background: var(--color-fundo);
+  color: var(--color-tinta);
+}
+
+.botao {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-marca px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-marca-forte focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca disabled:opacity-50;
+}
+.botao-secundario {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-linha bg-white px-4 py-2.5 text-sm font-semibold text-tinta transition hover:border-marca hover:text-marca;
+}
+.campo {
+  @apply w-full rounded-lg border border-linha bg-white px-3 py-2.5 text-sm outline-none transition focus:border-marca focus:ring-2 focus:ring-marca/20;
+}
+.rotulo {
+  @apply mb-1 block text-sm font-medium text-tinta;
+}
+.cartao {
+  @apply rounded-2xl border border-linha bg-white p-5 shadow-sm sm:p-6;
+}
