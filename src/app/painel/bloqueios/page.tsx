@@ -31,7 +31,7 @@ export default async function Bloqueios({ searchParams }: Props) {
               {bloqueios.map((b) => (
                 <li key={b.id} className="flex items-center gap-3 px-5 py-3 text-sm">
                   <span className="flex-1">
-                    <span className="font-medium capitalize">{formatarDataLonga(b.inicio, fuso)}</span>
+                    <span className="inline-block font-medium first-letter:uppercase">{formatarDataLonga(b.inicio, fuso)}</span>
                     <span className="text-apagado">
                       {" "}
                       · {formatarHora(b.inicio, fuso)} às {formatarHora(b.fim, fuso)}

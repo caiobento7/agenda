@@ -35,7 +35,7 @@ export default async function PaginaReserva({ params }: { params: Promise<{ slug
         <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div>
             <dt className="text-apagado">Quando</dt>
-            <dd className="font-medium capitalize">
+            <dd className="font-medium first-letter:uppercase">
               {formatarDataLonga(reserva.inicio, fuso)}, {formatarHora(reserva.inicio, fuso)}
             </dd>
           </div>

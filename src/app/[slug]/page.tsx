@@ -117,7 +117,7 @@ export default async function PaginaPublica({ params, searchParams }: Props) {
           <h2 id="passo-horario" className="mb-1 font-semibold">
             3. Horário
           </h2>
-          <p className="mb-3 text-sm capitalize text-apagado">{formatarDataLonga(instanteLocal(data, 12 * 60, fuso)!, fuso)}</p>
+          <p className="mb-3 text-sm text-apagado first-letter:uppercase">{formatarDataLonga(instanteLocal(data, 12 * 60, fuso)!, fuso)}</p>
           {horarios.length === 0 ? (
             <p className="text-sm text-apagado">Nenhum horário livre neste dia. Tente outro.</p>
           ) : (

@@ -47,7 +47,7 @@ export default async function Agenda() {
       <div className="grid gap-4">
         {[...porDia].map(([dia, reservas]) => (
           <section key={dia} className="cartao !p-0" aria-label={dia}>
-            <h2 className="border-b border-linha px-5 py-3 text-sm font-semibold capitalize">
+            <h2 className="border-b border-linha px-5 py-3 text-sm font-semibold first-letter:uppercase">
               {formatarDataLonga(reservas[0].reserva.inicio, negocio.fuso)}
             </h2>
             <ul className="divide-y divide-linha">
