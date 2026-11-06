@@ -1,10 +1,25 @@
 import Link from "next/link";
 import type { StatusReserva } from "@/db/schema";
 
-export function Logo({ href = "/" }: { href?: string }) {
+/** Fundo de grade suave, usado nas faixas coloridas. */
+export function Grade({ className = "" }: { className?: string }) {
   return (
-    <Link href={href} className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-tinta">
-      <span className="grid size-8 place-items-center rounded-lg bg-marca text-white">
+    <div
+      aria-hidden
+      className={`pointer-events-none absolute inset-0 opacity-[0.12] ${className}`}
+      style={{
+        backgroundImage: "linear-gradient(rgb(255 255 255) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255) 1px, transparent 1px)",
+        backgroundSize: "32px 32px",
+        maskImage: "radial-gradient(ellipse at top right, black 30%, transparent 75%)",
+      }}
+    />
+  );
+}
+
+export function Logo({ href = "/", claro = false }: { href?: string; claro?: boolean }) {
+  return (
+    <Link href={href} className={`inline-flex items-center gap-2 text-lg font-bold tracking-tight ${claro ? "text-white" : "text-tinta"}`}>
+      <span className={`grid size-8 place-items-center rounded-lg ${claro ? "bg-white text-marca" : "bg-marca text-white"}`}>
         <svg aria-hidden viewBox="0 0 24 24" className="size-4.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
           <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
           <path d="M3 9.5h18M8 2.5v4M16 2.5v4M8.5 14.5l2.2 2.2 4.8-4.8" />

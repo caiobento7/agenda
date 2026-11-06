@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Logo } from "@/components/ui";
 import { DEMO } from "@/lib/demonstracao";
 import { FormularioEntrar } from "../acesso/formularios";
+import { MolduraAcesso } from "../acesso/moldura";
 
 export const metadata: Metadata = { title: "Entrar" };
 
 export default function Entrar() {
   return (
-    <main className="mx-auto max-w-sm px-4 py-10">
-      <Logo />
-      <div className="cartao mt-6">
-        <h1 className="mb-4 text-xl font-bold">Entrar no painel</h1>
-        <FormularioEntrar />
+    <MolduraAcesso titulo="Bem-vindo de volta" subtitulo="Entre para ver sua agenda e os sinais recebidos.">
+      <FormularioEntrar />
+      <div className="mt-8 rounded-xl border border-dashed border-linha bg-fundo p-4 text-sm">
+        <p className="font-medium">Só quer conhecer?</p>
+        <p className="mt-1 text-apagado">
+          Use a conta de demonstração: <span className="font-mono text-tinta">{DEMO.email}</span> / senha{" "}
+          <span className="font-mono text-tinta">{DEMO.senha}</span>
+        </p>
       </div>
-      <p className="mt-4 text-center text-xs text-apagado">
-        Conta de demonstração: {DEMO.email} / {DEMO.senha}
-      </p>
-    </main>
+    </MolduraAcesso>
   );
 }
